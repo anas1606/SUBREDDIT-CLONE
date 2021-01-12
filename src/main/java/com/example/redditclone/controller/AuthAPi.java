@@ -14,11 +14,6 @@ public class AuthAPi {
     @Autowired
     private SignupAndAuth signupandpauth;
 
-    @GetMapping("/hello")
-    public String test(){
-        return "hhh";
-    }
-
     @PostMapping("/signup")
     public void signup(@RequestBody UserDto userdto){
         signupandpauth.signup(userdto);
