@@ -73,12 +73,12 @@ public class SignupAndAuth {
                 }
                 else {
                     result.put("Error","Varify the user First");
-                    result.put("Username",dto.getUsername());
+                    result.put("UserName",dto.getUsername());
                     return result;
                 }
             }
         result.put("Error","Bad Credential (User Not Found)");
-        result.put("Username",dto.getUsername());
+        result.put("User",dto.getUsername());
         return result;
     }
 }

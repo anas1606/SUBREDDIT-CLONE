@@ -10,4 +10,5 @@ import java.util.List;
 @Repository("subredditrepo")
 public interface SubRedditRepo extends JpaRepository<SubReddit,Long> {
     List<SubReddit> findByUser (User user);
+    SubReddit findByName(String name);
 }
