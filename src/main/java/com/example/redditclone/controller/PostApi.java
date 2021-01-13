@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
-import static org.springframework.http.ResponseEntity.status;
 
 @RequestMapping("/api/post")
 @RestController
@@ -19,9 +16,8 @@ public class PostApi {
     private PostService postservice;
 
     @PostMapping("/save")
-    public ResponseEntity<Void> createPost(@RequestBody PostRequest postRequest) {
-        postservice.save(postRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<PostRequest> createPost(@RequestBody PostRequest postRequest) {
+        return new ResponseEntity<>(postservice.save(postRequest),HttpStatus.CREATED);
     }
 
     @GetMapping("/all")

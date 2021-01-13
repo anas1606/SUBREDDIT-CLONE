@@ -17,7 +17,8 @@ public class CustomExceptionHandler {
     //Handel Validater Error
     @ExceptionHandler(value = {ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(Exception e, WebRequest req) {
-        ExceptionDetail detail = new ExceptionDetail(new Date(),"Validation Faild",e.getLocalizedMessage() );
-        return new ResponseEntity<>(detail,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                new ExceptionDetail(new Date(),"Validation Faild",e.getLocalizedMessage()),
+                HttpStatus.BAD_REQUEST);
     }
 }

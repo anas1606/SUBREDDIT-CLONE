@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,9 +31,10 @@ public class PostService {
     @Autowired
     private UserDetail userdetail;
 
-    public void save(PostRequest postRequest) {
+    public PostRequest save(PostRequest postRequest) {
         SubReddit subreddit = subredditrepo.findByName(postRequest.getSubredditname());
         postrepo.save(postmapper.map(postRequest, subreddit,userdetail.findByUsername(new JWTProvider().getcurrentuser())));
+        return postRequest;
     }
 
     @Transactional
