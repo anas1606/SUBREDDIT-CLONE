@@ -29,7 +29,7 @@ public class AuthAPi {
     }
 
     @GetMapping("/auth/{token}")
-    public ResponseEntity<?> varifytoken(@PathVariable("token") String token){
+    public ResponseEntity<String> varifytoken(@PathVariable("token") String token){
         return signupandpauth.verifytoken(token);
     }
 

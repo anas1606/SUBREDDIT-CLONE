@@ -55,7 +55,7 @@ public class SignupAndAuth {
     }
 
     @Transactional
-    public ResponseEntity<?> verifytoken(String token){
+    public ResponseEntity<String> verifytoken(String token){
         log.info("Request For Token Varification");
         var tokendata = tokendetail.findByToken(token);
         if(tokendata !=null) {

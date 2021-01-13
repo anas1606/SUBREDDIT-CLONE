@@ -60,10 +60,9 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<List<Commentdto>> getAllCommentsForUser(String userName) {
+    public ResponseEntity<List<Commentdto>> getAllCommentsForUser(String username) {
         try {
-            User user = userdetail.findByusername(userName)
-                    .orElseThrow(() -> new UsernameNotFoundException(userName));
+            User user = userdetail.findByUsername(username);
             return status(HttpStatus.OK).body(
                     commentrepo.findAllByUser(user)
                     .stream()
