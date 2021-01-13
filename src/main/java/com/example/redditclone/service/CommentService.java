@@ -33,8 +33,8 @@ public class CommentService {
     }
 
     public void save(Commentdto commentsDto) {
-        Post post = postrepo.findById(commentdto.getPostId())
-                .orElseThrow(() -> new PostNotFoundException(commentdto.getPostId().toString()));
+        Post post = postrepo.findById(commentdto.getPostid())
+                .orElseThrow(() -> new PostNotFoundException(commentdto.getPostid().toString()));
         Comment comment = commentmapper.map(commentsDto, post, userdetail.findByUsername(new JWTProvider().getcurrentuser()));
         commentrepo.save(comment);
     }
