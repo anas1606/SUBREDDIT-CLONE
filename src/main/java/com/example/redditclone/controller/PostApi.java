@@ -4,6 +4,7 @@ import com.example.redditclone.dto.PostRequest;
 import com.example.redditclone.dto.PostResponse;
 import com.example.redditclone.service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,9 @@ import static org.springframework.http.ResponseEntity.status;
 
 @RequestMapping("/api/post")
 @RestController
-@AllArgsConstructor
 public class PostApi {
-
-    private final PostService postService;
+    @Autowired
+    private PostService postService;
 
     @PostMapping("/save")
     public ResponseEntity<Void> createPost(@RequestBody PostRequest postRequest) {

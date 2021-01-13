@@ -3,11 +3,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Data
@@ -16,14 +19,14 @@ import java.time.Instant;
 @NoArgsConstructor
 public class User {
     @Id
-    @NotBlank(message = "Username is required")
+    @NotBlank
     @JsonProperty("username")
     private String username;
-    @NotBlank(message = "Password is required")
+    @NotBlank
     @JsonProperty("password")
     private String password;
+    @NotBlank
     @Email
-    @NotEmpty(message = "Email is required")
     @JsonProperty("email")
     private String email;
     private Instant created;

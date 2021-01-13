@@ -10,15 +10,21 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.TokenDetail;
 import com.example.redditclone.repository.UserDetail;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.http.ResponseEntity.status;
+
 
 @Service
+@Slf4j
 public class SignupAndAuth {
     @Autowired
     @Qualifier("userdetail")
@@ -38,47 +44,56 @@ public class SignupAndAuth {
     private UserConverter converter;
 
     @Transactional
-    public void signup(UserDto userdto){
+    public UserDto signup(UserDto userdto){
         User data = converter.dtotouser(userdto);
         userdetaildao.signup(data);
+        log.info("User Data inserted");
         verificationtokendao.getvarificationtoken(data);
+        log.info("Token Is send to user");
+
+        return converter.usertodto(data);
     }
 
     @Transactional
-    public String verifytoken(String token){
+    public ResponseEntity<?> verifytoken(String token){
+        log.info("Request For Token Varification");
         var tokendata = tokendetail.findByToken(token);
         if(tokendata !=null) {
             var ispresent = userdetail.findByUsername(tokendata.getUser().getUsername());
             if (ispresent != null) {
                 ispresent.setEnabled(true);
                 userdetail.save(ispresent);
-                return "Vlidation Successfull..!!!";
+                return new ResponseEntity<>("Varifyed Successfully...!!!!",HttpStatus.OK);
             }
         }
-        return "Not a Valid Token";
+        return status(HttpStatus.BAD_REQUEST).body("Invalid Token");
     }
 
     @SneakyThrows
-    public Map<String,String> login(Logindto dto){
+    public ResponseEntity<Map<String,String>> login(Logindto dto){
             var result = new HashMap<String, String>();
             var ispresent = userdetail.findByUsername(dto.getUsername());
 
             if(ispresent!=null)
             {
+                log.info("User Is present");
                 if(ispresent.isEnabled())
                 {
                     result.put("token",jwtprovider.generateToken(dto.getUsername()));
                     result.put("Username",dto.getUsername());
-                    return result;
+                    return status(HttpStatus.ACCEPTED).body(result);
                 }
                 else {
+                    log.info("But Not Varifyed");
                     result.put("Error","Varify the user First");
                     result.put("UserName",dto.getUsername());
-                    return result;
+                    return status(HttpStatus.SERVICE_UNAVAILABLE).body(result);
                 }
             }
+
+            log.info("Not A Valid User");
         result.put("Error","Bad Credential (User Not Found)");
         result.put("User",dto.getUsername());
-        return result;
+        return status(HttpStatus.BAD_REQUEST).body(result);
     }
 }

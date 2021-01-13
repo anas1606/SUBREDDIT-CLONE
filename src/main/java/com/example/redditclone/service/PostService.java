@@ -9,18 +9,19 @@ import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.SubRedditRepo;
 import com.example.redditclone.repository.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class PostService {
 
     @Autowired
     private SubRedditRepo subredditrepo;
     @Autowired
     private PostRepo postrepo;
-    @Autowired
     private PostMapper postmapper;
     @Autowired
     private UserDetail userdetail;
