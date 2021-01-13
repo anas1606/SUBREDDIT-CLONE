@@ -18,16 +18,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Post {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long postId;
+    private Long postid;
     @NotBlank(message = "Post Name cannot be empty or Null")
-    private String postName;
+    private String postname;
     private String url;
     @Lob
     private String description;
-    private Integer voteCount = 0;
+    private Integer votecount = 0;
     @ManyToOne(fetch = LAZY)
     private User user;
-    private Instant createdDate;
+    private Instant createddate;
     @ManyToOne(fetch = LAZY)
     private SubReddit subreddit;
 }

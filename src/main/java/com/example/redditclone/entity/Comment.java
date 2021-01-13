@@ -25,7 +25,7 @@ public class Comment {
     private String text;
     @ManyToOne(fetch = LAZY)
     private Post post;
-    private Instant createdDate;
+    private Instant createddate;
     @ManyToOne(fetch = LAZY)
     private User user;
 }

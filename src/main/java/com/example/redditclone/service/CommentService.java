@@ -10,8 +10,6 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.CommentRepo;
 import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.UserDetail;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
