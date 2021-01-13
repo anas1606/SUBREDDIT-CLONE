@@ -1,6 +1,4 @@
-package com.example.redditclone.Exception;
-
-import lombok.AllArgsConstructor;
+package com.example.redditclone.exception;
 import lombok.Data;
 
 import java.util.Date;

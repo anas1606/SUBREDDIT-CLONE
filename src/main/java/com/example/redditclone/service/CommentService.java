@@ -1,6 +1,6 @@
 package com.example.redditclone.service;
 
-import com.example.redditclone.Exception.PostNotFoundException;
+import com.example.redditclone.exception.PostNotFoundException;
 import com.example.redditclone.dto.Commentdto;
 import com.example.redditclone.dto.Commentmapper;
 import com.example.redditclone.entity.Comment;

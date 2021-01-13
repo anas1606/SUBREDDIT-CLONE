@@ -1,4 +1,4 @@
-package com.example.redditclone.Exception;
+package com.example.redditclone.exception;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

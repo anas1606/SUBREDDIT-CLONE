@@ -1,4 +1,4 @@
-package com.example.redditclone.Exception;
+package com.example.redditclone.exception;
 
 public class NoPosts extends RuntimeException{
     public NoPosts(String message){

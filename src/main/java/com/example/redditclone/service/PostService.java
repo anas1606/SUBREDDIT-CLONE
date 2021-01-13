@@ -1,6 +1,5 @@
 package com.example.redditclone.service;
 
-import com.example.redditclone.Exception.NoPosts;
 import com.example.redditclone.dto.PostMapper;
 import com.example.redditclone.dto.PostRequest;
 import com.example.redditclone.dto.PostResponse;
