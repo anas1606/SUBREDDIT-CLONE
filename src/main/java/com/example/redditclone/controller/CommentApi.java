@@ -23,13 +23,11 @@ public class CommentApi {
 
     @GetMapping("/bypost/{postid}")
     public ResponseEntity<List<Commentdto>> getAllCommentsForPost(@PathVariable("postid") Long postid) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(commentservice.getAllCommentsForPost(postid));
+        return commentservice.getAllCommentsForPost(postid);
     }
 
     @GetMapping("/byuser/{username}")
     public ResponseEntity<List<Commentdto>> getAllCommentsForUser(@PathVariable("username") String username){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(commentservice.getAllCommentsForUser(username));
+        return commentservice.getAllCommentsForUser(username);
     }
 }

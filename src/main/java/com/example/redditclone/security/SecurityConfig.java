@@ -34,12 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
         .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
-        .antMatchers(HttpMethod.POST,"/api/signup")
+        .antMatchers("/api/**")
         .permitAll()
-        .antMatchers(HttpMethod.POST,"/api/login")
-        .permitAll()
-        .antMatchers(HttpMethod.GET,"/api/auth/**")
-        .permitAll()
+//        .antMatchers(HttpMethod.POST,"/api/login")
+//        .permitAll()
+//        .antMatchers(HttpMethod.GET,"/api/auth/**")
+//        .permitAll()
         .anyRequest()
         .authenticated();
     }

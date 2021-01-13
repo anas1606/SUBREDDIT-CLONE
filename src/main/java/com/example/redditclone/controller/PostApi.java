@@ -26,6 +26,6 @@ public class PostApi {
 
     @GetMapping("/all")
     public ResponseEntity<List<PostResponse>> getAllPosts() {
-        return status(HttpStatus.OK).body(postservice.getallposts());
+        return postservice.getallposts();
     }
 }

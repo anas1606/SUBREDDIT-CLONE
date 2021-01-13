@@ -10,14 +10,19 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.CommentRepo;
 import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.UserDetail;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.ResponseEntity.status;
 
 @Service
+@Slf4j
 public class CommentService {
 
     private  PostRepo postrepo;
@@ -39,19 +44,36 @@ public class CommentService {
         commentrepo.save(comment);
     }
 
-    public List<Commentdto> getAllCommentsForPost(Long postId) {
-        Post post = postrepo.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
-        return commentrepo.findByPost(post)
-                .stream()
-                .map(commentmapper::mapToDto).collect(toList());
+    public ResponseEntity<List<Commentdto>> getAllCommentsForPost(Long postId) {
+        try {
+
+            Post post = postrepo.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
+            return status(HttpStatus.OK).body(
+                    commentrepo.findByPost(post)
+                    .stream()
+                    .map(commentmapper::mapToDto).collect(toList())
+            );
+        }
+        catch(Exception e){
+            log.error("Error Will getting All CommentByPostId");
+            return status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
-    public List<Commentdto> getAllCommentsForUser(String userName) {
-        User user = userdetail.findByusername(userName)
-                .orElseThrow(() -> new UsernameNotFoundException(userName));
-        return commentrepo.findAllByUser(user)
-                .stream()
-                .map(commentmapper::mapToDto)
-                .collect(toList());
+    public ResponseEntity<List<Commentdto>> getAllCommentsForUser(String userName) {
+        try {
+            User user = userdetail.findByusername(userName)
+                    .orElseThrow(() -> new UsernameNotFoundException(userName));
+            return status(HttpStatus.OK).body(
+                    commentrepo.findAllByUser(user)
+                    .stream()
+                    .map(commentmapper::mapToDto)
+                    .collect(toList())
+            );
+        }
+        catch(Exception ex){
+            log.error("Error Will getting All CommentByUsername");
+            return status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }
