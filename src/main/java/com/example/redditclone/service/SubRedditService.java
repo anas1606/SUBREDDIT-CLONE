@@ -6,6 +6,7 @@ import com.example.redditclone.entity.SubReddit;
 import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.SubRedditRepo;
 import com.example.redditclone.repository.UserDetail;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-
+@Slf4j
 public class SubRedditService {
     @Autowired
     @Qualifier("subredditrepo")
@@ -40,6 +41,7 @@ public class SubRedditService {
     }
 
     public List<SubRedditdto> getbyuser() {
+        log.info("get the All subreddit by username");
         return subredditmapper.listmapsubreddittodto(
                 subredditrepository.findByUser(
                         userdetail.findByUsername(new JWTProvider().getcurrentuser())
