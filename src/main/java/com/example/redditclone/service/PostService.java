@@ -60,6 +60,7 @@ public class PostService {
         }
         }
 
+    @Transactional
     public ResponseEntity<PostResponse> getallbyid(Long id) {
         try{
             return status(HttpStatus.OK).body(postmapper.maptodto(postrepo.findByPostid(id)));
@@ -69,7 +70,7 @@ public class PostService {
             return status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
-
+    @Transactional
     public ResponseEntity<List<PostResponse>> getbysubreddit(String subredditname) {
         try{
             SubReddit ispresent = subredditrepo.findByName(subredditname);
@@ -90,6 +91,7 @@ public class PostService {
         }
     }
 
+    @Transactional
     public ResponseEntity<List<PostResponse>> getbyuser() {
         try {
             return status(HttpStatus.OK).body(
