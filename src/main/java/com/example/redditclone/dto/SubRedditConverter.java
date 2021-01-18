@@ -6,7 +6,6 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.UserDetail;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;

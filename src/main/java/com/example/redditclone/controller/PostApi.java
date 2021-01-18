@@ -2,7 +2,6 @@ package com.example.redditclone.controller;
 
 import com.example.redditclone.dto.PostRequest;
 import com.example.redditclone.dto.PostResponse;
-import com.example.redditclone.dto.SubRedditdto;
 import com.example.redditclone.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

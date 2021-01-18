@@ -1,15 +1,10 @@
 package com.example.redditclone.service;
 
-import com.example.redditclone.entity.Post;
-import com.example.redditclone.exception.PostNotFoundException;
 import com.example.redditclone.dto.Commentdto;
 import com.example.redditclone.dto.Commentmapper;
-import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.CommentRepo;
 import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.UserDetail;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

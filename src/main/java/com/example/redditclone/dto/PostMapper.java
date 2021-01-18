@@ -6,7 +6,6 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.CommentRepo;
 import com.example.redditclone.repository.SubRedditRepo;
 import com.example.redditclone.repository.UserDetail;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +29,7 @@ public class PostMapper {
         postr.setSubredditName(post.getSubreddit().getName());
         postr.setCommentCount(commentcount(post));
         postr.setDuration(getDuration(post));
+        postr.setVoteCount(0);
         postr.setUpVote(false);
         postr.setDownVote(false);
         postr.setDescription(post.getDescription());
@@ -47,6 +47,7 @@ public class PostMapper {
         post.setCreateddate(Instant.now());
         post.setPostid(postRequest.getPostid());
         post.setUrl(postRequest.getUrl());
+        post.setVotecount(0);
         post.setUser(userdetail.findByUsername(new JWTProvider().getcurrentuser()));
         post.setSubreddit(subredditrepo.findByName(postRequest.getSubredditname()));
         post.setVotecount(0);
