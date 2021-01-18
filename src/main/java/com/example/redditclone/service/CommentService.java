@@ -1,16 +1,17 @@
 package com.example.redditclone.service;
 
+import com.example.redditclone.entity.Post;
 import com.example.redditclone.exception.PostNotFoundException;
 import com.example.redditclone.dto.Commentdto;
 import com.example.redditclone.dto.Commentmapper;
-import com.example.redditclone.entity.Comment;
-import com.example.redditclone.entity.Post;
-import com.example.redditclone.entity.User;
 import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.CommentRepo;
 import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.UserDetail;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,32 +24,24 @@ import static org.springframework.http.ResponseEntity.status;
 @Service
 @Slf4j
 public class CommentService {
-
-    private  PostRepo postrepo;
-    private  UserDetail userdetail;
+    @Autowired
     private  Commentmapper commentmapper;
+    @Autowired
     private  CommentRepo commentrepo;
     private  Commentdto commentdto;
-
-    public CommentService(PostRepo postrepo, UserDetail userdetail, CommentRepo commentrepo) {
-        this.postrepo = postrepo;
-        this.userdetail = userdetail;
-        this.commentrepo = commentrepo;
-    }
+    @Autowired
+    private PostRepo postrepo;
+    @Autowired
+    private UserDetail userdetail;
 
     public void save(Commentdto commentsDto) {
-        Post post = postrepo.findById(commentdto.getPostid())
-                .orElseThrow(() -> new PostNotFoundException(commentdto.getPostid().toString()));
-        Comment comment = commentmapper.map(commentsDto, post, userdetail.findByUsername(new JWTProvider().getcurrentuser()));
-        commentrepo.save(comment);
+        commentrepo.save(commentmapper.map(commentsDto));
     }
 
     public ResponseEntity<List<Commentdto>> getAllCommentsForPost(Long postId) {
         try {
-
-            Post post = postrepo.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
             return status(HttpStatus.OK).body(
-                    commentrepo.findByPost(post)
+                    commentrepo.findByPost(postrepo.findByPostid(postId))
                     .stream()
                     .map(commentmapper::mapToDto).collect(toList())
             );
@@ -61,9 +54,8 @@ public class CommentService {
 
     public ResponseEntity<List<Commentdto>> getAllCommentsForUser(String username) {
         try {
-            User user = userdetail.findByUsername(username);
             return status(HttpStatus.OK).body(
-                    commentrepo.findAllByUser(user)
+                    commentrepo.findAllByUser(userdetail.findByUsername(username))
                     .stream()
                     .map(commentmapper::mapToDto)
                     .collect(toList())

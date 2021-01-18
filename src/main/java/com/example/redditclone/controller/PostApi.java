@@ -24,4 +24,9 @@ public class PostApi {
     public ResponseEntity<List<PostResponse>> getAllPosts() {
         return postservice.getallposts();
     }
+
+    @GetMapping("/byid/{id}")
+    public ResponseEntity<PostResponse> getallbyid(@PathVariable("id") Long id){
+        return  postservice.getallbyid(id);
+    }
 }

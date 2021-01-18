@@ -34,6 +34,7 @@ public class SubRedditService {
 
     @Transactional
     public List<SubRedditdto> getallsubreddit(){
+        log.info("get the All subreddit");
         return subredditrepository.findAll()
                 .stream()
                 .map(subredditmapper::mapsubreddittodto)

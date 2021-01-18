@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postid;
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postname;

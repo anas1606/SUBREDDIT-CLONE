@@ -19,7 +19,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 public class Comment {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     @NotBlank
     private String text;

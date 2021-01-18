@@ -57,7 +57,7 @@ public class SignupAndAuth {
     @Transactional
     public ResponseEntity<String> verifytoken(String token){
         log.info("Request For Token Varification");
-        var tokendata = tokendetail.findByToken(token);
+            var tokendata = tokendetail.findByToken(token);
         if(tokendata !=null) {
             var ispresent = userdetail.findByUsername(tokendata.getUser().getUsername());
             if (ispresent != null) {
