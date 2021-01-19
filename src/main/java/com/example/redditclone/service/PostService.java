@@ -31,15 +31,17 @@ public class PostService {
     private SubRedditRepo subredditrepo;
     @Autowired
     private UserDetail userdetail;
-    
-    private SubReddit subreddit;
 
     @Transactional
     public PostRequest save(PostRequest postRequest) {
         Post save = postrepo.save(postmapper.map(postRequest));
         postRequest.setPostid(save.getPostid());
         //add post to subreddit post list
-        subredditrepo.findByName(postRequest.getSubredditname()).getPosts().add(postmapper.map(postRequest));
+        subredditrepo.findByName(
+                postRequest.getSubredditname())
+                .getPosts()
+                .add(postmapper.map(postRequest)
+                );
 
         return postRequest;
     }
