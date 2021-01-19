@@ -17,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -59,6 +61,10 @@ public class VoteService {
                     return status(HttpStatus.BAD_REQUEST).body(null);
             }
 
+            //if user is Chnaging his vote type
+            if(votebyuserandpost.isPresent())
+                dto.setId(votebyuserandpost.get().getVoteId());
+
             if(VoteType.UPVOTE.equals(dto.getVotetype())){
                post.setVotecount(post.getVotecount()+1);
             }else{
@@ -72,4 +78,18 @@ public class VoteService {
 
     }
 
+    public ResponseEntity<List<Votedto>> getall() {
+        try{
+            return status(HttpStatus.OK).body(
+                    voterepo.findAll().
+                    stream()
+                    .map(votemapper::maptodto)
+                    .collect(Collectors.toList())
+            );
+        }
+        catch(Exception e){
+            log.error("Error accoured While Geting Aall Post");
+            return status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 }

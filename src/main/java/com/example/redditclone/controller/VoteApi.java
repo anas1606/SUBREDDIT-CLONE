@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/vote")
 @RestController
 public class VoteApi {
@@ -20,5 +22,10 @@ public class VoteApi {
     @PostMapping("/save")
     public ResponseEntity<Votedto> save(@RequestBody Votedto dto){
         return voteservice.save(dto);
+    }
+
+    @GetMapping("/getall")
+    public  ResponseEntity<List<Votedto>> getall (){
+        return voteservice.getall();
     }
 }

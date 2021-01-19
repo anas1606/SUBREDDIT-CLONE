@@ -16,14 +16,23 @@ public class VoteMapper {
     private UserDetail userdetail;
 
     public Vote map(Votedto dto){
-        System.out.println("aa");
         Vote vote = new Vote();
 
-        vote.setVoteId(1L);
+        vote.setVoteId(dto.getId());
         vote.setPost(postrepo.findByPostid(dto.getPostid()));
         vote.setVoteType(dto.getVotetype());
         vote.setUser(userdetail.findByUsername(new JWTProvider().getcurrentuser()));
 
         return vote;
+    }
+
+    public Votedto maptodto (Vote vote){
+        Votedto dto = new Votedto();
+
+        dto.setId(vote.getVoteId());
+        dto.setVotetype(vote.getVoteType());
+        dto.setPostid(vote.getPost().getPostid());
+
+        return dto;
     }
 }

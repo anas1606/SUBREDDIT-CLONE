@@ -1,6 +1,7 @@
 package com.example.redditclone.dto;
 
 import com.example.redditclone.entity.Post;
+import com.example.redditclone.repository.VoteRepo;
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.CommentRepo;
@@ -19,6 +20,8 @@ public class PostMapper {
     SubRedditRepo subredditrepo;
     @Autowired
     CommentRepo commentrepo;
+    @Autowired
+    VoteRepo voterepo;
 
 
     public PostResponse maptodto(Post post){
@@ -29,7 +32,7 @@ public class PostMapper {
         postr.setSubredditName(post.getSubreddit().getName());
         postr.setCommentCount(commentcount(post));
         postr.setDuration(getDuration(post));
-        postr.setVoteCount(0);
+        postr.setVoteCount(post.getVotecount());
         postr.setUpVote(false);
         postr.setDownVote(false);
         postr.setDescription(post.getDescription());
@@ -50,7 +53,6 @@ public class PostMapper {
         post.setVotecount(0);
         post.setUser(userdetail.findByUsername(new JWTProvider().getcurrentuser()));
         post.setSubreddit(subredditrepo.findByName(postRequest.getSubredditname()));
-        post.setVotecount(0);
 
         return post;
     }

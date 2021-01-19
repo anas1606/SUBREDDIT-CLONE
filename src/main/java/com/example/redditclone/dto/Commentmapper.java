@@ -21,7 +21,7 @@ public class Commentmapper {
     public Comment map(Commentdto commentdto){
         Comment comment = new Comment();
 
-        comment.setId(getid());
+        comment.setId(commentdto.getId());
         comment.setPost(postrepo.findByPostid(commentdto.getPostid()));
         comment.setUser(userdetail.findByUsername(new JWTProvider().getcurrentuser()));
         comment.setText(commentdto.getText());
