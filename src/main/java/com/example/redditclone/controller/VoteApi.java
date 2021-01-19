@@ -28,4 +28,9 @@ public class VoteApi {
     public  ResponseEntity<List<Votedto>> getall (){
         return voteservice.getall();
     }
+
+    @GetMapping("/getbypost/{postid}")
+    public ResponseEntity<List<Votedto>> getbypost(@PathVariable("postid") Long id){
+        return voteservice.getbypost(id);
+    }
 }

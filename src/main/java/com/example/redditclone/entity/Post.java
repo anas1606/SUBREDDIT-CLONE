@@ -25,6 +25,8 @@ public class Post {
     @Lob
     private String description;
     private Integer votecount = 0;
+    private Integer upvote;
+    private Integer downvote;
     @ManyToOne(fetch = LAZY)
     private User user;
     private Instant createddate;

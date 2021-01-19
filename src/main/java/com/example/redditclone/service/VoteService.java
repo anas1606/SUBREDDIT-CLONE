@@ -10,7 +10,6 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.UserDetail;
 import com.example.redditclone.repository.VoteRepo;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,14 +61,13 @@ public class VoteService {
             }
 
             //if user is Chnaging his vote type
-            if(votebyuserandpost.isPresent())
+            if(votebyuserandpost.isPresent()) {
                 dto.setId(votebyuserandpost.get().getVoteId());
-
-            if(VoteType.UPVOTE.equals(dto.getVotetype())){
-               post.setVotecount(post.getVotecount()+1);
-            }else{
-                post.setVotecount(post.getVotecount()-1);
+                post = changevoteonpost(dto,post);
             }
+            //user voting firdt time vote
+            else
+                post = addnewvoteonpost(dto,post);
 
             Vote save = voterepo.save(votemapper.map(dto));
             dto.setId(save.getVoteId());
@@ -89,6 +87,43 @@ public class VoteService {
         }
         catch(Exception e){
             log.error("Error accoured While Geting Aall Post");
+            return status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    private Post changevoteonpost (Votedto dto,Post post){
+        if(VoteType.UPVOTE.equals(dto.getVotetype())){
+            post.setUpvote(post.getUpvote()+1);
+            post.setDownvote(post.getDownvote()-1);
+        }else{
+            post.setDownvote(post.getDownvote()+1);
+            post.setUpvote(post.getUpvote()-1);
+        }
+        return post;
+    }
+
+    private Post addnewvoteonpost(Votedto dto,Post post){
+        if(VoteType.UPVOTE.equals(dto.getVotetype()))
+            post.setUpvote(post.getUpvote()+1);
+        else
+            post.setDownvote(post.getDownvote()+1);
+
+        post.setVotecount(post.getVotecount()+1);
+
+        return post;
+    }
+
+    public ResponseEntity<List<Votedto>> getbypost(Long id) {
+        try{
+            return status(HttpStatus.OK).body(
+                    voterepo.findByPost(postrepo.findByPostid(id))
+                    .stream()
+                    .map(votemapper::maptodto)
+                    .collect(Collectors.toList())
+            );
+        }
+        catch(Exception e){
+            log.error("Error Occured while getbypost");
             return status(HttpStatus.BAD_REQUEST).body(null);
         }
     }

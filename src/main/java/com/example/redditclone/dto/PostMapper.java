@@ -33,8 +33,8 @@ public class PostMapper {
         postr.setCommentCount(commentcount(post));
         postr.setDuration(getDuration(post));
         postr.setVoteCount(post.getVotecount());
-        postr.setUpVote(false);
-        postr.setDownVote(false);
+        postr.setUpVote(post.getUpvote());
+        postr.setDownVote(post.getDownvote());
         postr.setDescription(post.getDescription());
         postr.setPostName(post.getPostname());
         postr.setUserName(post.getUser().getUsername());
@@ -51,6 +51,8 @@ public class PostMapper {
         post.setPostid(postRequest.getPostid());
         post.setUrl(postRequest.getUrl());
         post.setVotecount(0);
+        post.setUpvote(0);
+        post.setDownvote(0);
         post.setUser(userdetail.findByUsername(new JWTProvider().getcurrentuser()));
         post.setSubreddit(subredditrepo.findByName(postRequest.getSubredditname()));
 
