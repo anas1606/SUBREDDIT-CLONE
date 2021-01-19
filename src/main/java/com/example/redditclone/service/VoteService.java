@@ -36,12 +36,6 @@ public class VoteService {
     @Autowired
     private VoteMapper votemapper;
 
-    public String test() {
-        VoteType a = votetype.UPVOTE;
-        if(!votetype.UPVOTE.equals(a))
-            return "up";
-        return "dw";
-    }
 
     @Transactional
     public ResponseEntity<Votedto> save(Votedto dto) {

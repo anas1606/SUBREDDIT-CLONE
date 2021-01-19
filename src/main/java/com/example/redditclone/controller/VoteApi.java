@@ -14,11 +14,6 @@ public class VoteApi {
     @Autowired
     private VoteService voteservice;
 
-    @GetMapping
-    public String test(){
-        return voteservice.test();
-    }
-
     @PostMapping("/save")
     public ResponseEntity<Votedto> save(@RequestBody Votedto dto){
         return voteservice.save(dto);
