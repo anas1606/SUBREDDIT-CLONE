@@ -85,6 +85,22 @@ public class VoteService {
         }
     }
 
+    public ResponseEntity<List<Votedto>> getbypost(Long id) {
+        try{
+            return status(HttpStatus.OK).body(
+                    voterepo.findByPost(postrepo.findByPostid(id))
+                            .stream()
+                            .map(votemapper::maptodto)
+                            .collect(Collectors.toList())
+            );
+        }
+        catch(Exception e){
+            log.error("Error Occured while getbypost");
+            return status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+
     private Post changevoteonpost (Votedto dto,Post post){
         if(VoteType.UPVOTE.equals(dto.getVotetype())){
             post.setUpvote(post.getUpvote()+1);
@@ -105,20 +121,5 @@ public class VoteService {
         post.setVotecount(post.getVotecount()+1);
 
         return post;
-    }
-
-    public ResponseEntity<List<Votedto>> getbypost(Long id) {
-        try{
-            return status(HttpStatus.OK).body(
-                    voterepo.findByPost(postrepo.findByPostid(id))
-                    .stream()
-                    .map(votemapper::maptodto)
-                    .collect(Collectors.toList())
-            );
-        }
-        catch(Exception e){
-            log.error("Error Occured while getbypost");
-            return status(HttpStatus.BAD_REQUEST).body(null);
-        }
     }
 }
