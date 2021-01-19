@@ -9,8 +9,8 @@ import com.example.redditclone.jwt.JWTProvider;
 import com.example.redditclone.repository.PostRepo;
 import com.example.redditclone.repository.SubRedditRepo;
 import com.example.redditclone.repository.UserDetail;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,29 +21,32 @@ import static org.springframework.http.ResponseEntity.status;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PostService {
 
-    @Autowired
     private PostRepo postrepo;
-    @Autowired
     private PostMapper postmapper;
-    @Autowired
     private SubRedditRepo subredditrepo;
-    @Autowired
     private UserDetail userdetail;
 
     @Transactional
     public PostRequest save(PostRequest postRequest) {
-        Post save = postrepo.save(postmapper.map(postRequest));
-        postRequest.setPostid(save.getPostid());
-        //add post to subreddit post list
-        subredditrepo.findByName(
-                postRequest.getSubredditname())
-                .getPosts()
-                .add(postmapper.map(postRequest)
-                );
+        try {
+            Post save = postrepo.save(postmapper.map(postRequest));
+            postRequest.setPostid(save.getPostid());
 
-        return postRequest;
+            //add post to subreddit post list
+            subredditrepo.findByName(
+                    postRequest.getSubredditname())
+                    .getPosts()
+                    .add(postmapper.map(postRequest)
+                    );
+
+            return postRequest;
+        }catch (Exception e){
+            log.error("Cant Save the Post");
+            return null;
+        }
     }
 
     @Transactional
